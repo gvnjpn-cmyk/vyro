@@ -8,6 +8,8 @@ import '../../tasks/providers/tasks_provider.dart';
 import '../../habits/providers/habits_provider.dart';
 import '../../focus/providers/focus_provider.dart';
 import '../../../shared/widgets/vyro_widgets.dart';
+import '../../../models/task_model.dart';
+import '../../../models/focus_session_model.dart';
 
 class AnalyticsScreen extends ConsumerWidget {
   const AnalyticsScreen({super.key});
@@ -161,7 +163,7 @@ class _MetricCard extends StatelessWidget {
 }
 
 class _WeeklyFocusChart extends StatelessWidget {
-  final List sessions;
+  final List<FocusSessionModel> sessions;
   final ThemeData theme;
 
   const _WeeklyFocusChart({required this.sessions, required this.theme});
@@ -233,7 +235,7 @@ class _WeeklyFocusChart extends StatelessWidget {
 }
 
 class _MonthlyTasksChart extends StatelessWidget {
-  final List tasks;
+  final List<TaskModel> tasks;
   final ThemeData theme;
 
   const _MonthlyTasksChart({required this.tasks, required this.theme});
