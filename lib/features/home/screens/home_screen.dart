@@ -8,6 +8,8 @@ import '../../../features/tasks/providers/tasks_provider.dart';
 import '../../../features/habits/providers/habits_provider.dart';
 import '../../../features/focus/providers/focus_provider.dart';
 import '../../../shared/widgets/vyro_widgets.dart';
+import '../../../models/task_model.dart';
+import '../../../models/habit_model.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -126,28 +128,30 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  int _calcScore(tasks, habits, int focusMin) {
+  int _calcScore(List<TaskModel> tasks, List<HabitModel> habits, int focusMin) {
     int score = 0;
+    final now = DateTime.now();
     final todayTasks = tasks.where((t) {
-      final now = DateTime.now();
       if (t.dueDate == null) return false;
       return t.dueDate!.year == now.year &&
           t.dueDate!.month == now.month &&
           t.dueDate!.day == now.day;
     }).toList();
     if (todayTasks.isNotEmpty) {
-      final done = todayTasks.where((t) => t.completed).length;
-      score += (done / todayTasks.length * 40).round();
+      final int done = todayTasks.where((t) => t.completed).length;
+      final int total = todayTasks.length;
+      score += ((done / total) * 40).round();
     } else {
       score += 30;
     }
     if (habits.isNotEmpty) {
-      final doneHabits = habits.where((h) => h.isCompletedToday()).length;
-      score += (doneHabits / habits.length * 40).round();
+      final int doneHabits = habits.where((h) => h.isCompletedToday()).length;
+      final int total = habits.length;
+      score += ((doneHabits / total) * 40).round();
     } else {
       score += 30;
     }
-    score += (focusMin / 120 * 20).round().clamp(0, 20);
+    score += (((focusMin / 120) * 20).round()).clamp(0, 20);
     return score.clamp(0, 100);
   }
 
@@ -375,7 +379,7 @@ class _QuickAction extends StatelessWidget {
 }
 
 class _TaskTile extends StatelessWidget {
-  final task;
+  final TaskModel task;
   final WidgetRef ref;
 
   const _TaskTile({required this.task, required this.ref});
@@ -445,7 +449,7 @@ class _TaskTile extends StatelessWidget {
 }
 
 class _HabitTile extends StatelessWidget {
-  final habit;
+  final HabitModel habit;
   final WidgetRef ref;
 
   const _HabitTile({required this.habit, required this.ref});
