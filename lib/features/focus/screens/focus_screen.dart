@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/app_utils.dart';
 import '../providers/focus_provider.dart';
+import '../../../models/focus_session_model.dart';
 
 class FocusScreen extends ConsumerWidget {
   const FocusScreen({super.key});
@@ -374,7 +375,7 @@ class _StatCard extends StatelessWidget {
 }
 
 class _SessionTile extends StatelessWidget {
-  final session;
+  final FocusSessionModel session;
   final ThemeData theme;
 
   const _SessionTile({required this.session, required this.theme});
