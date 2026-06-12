@@ -22,8 +22,9 @@ class TasksScreen extends ConsumerWidget {
     final filter = ref.watch(_selectedFilterProvider);
 
     var filtered = allTasks.where((t) {
-      if (selectedCategory != null && t.category != selectedCategory)
+      if (selectedCategory != null && t.category != selectedCategory) {
         return false;
+      }
       if (filter == 'Pending') return !t.completed;
       if (filter == 'Done') return t.completed;
       return true;
